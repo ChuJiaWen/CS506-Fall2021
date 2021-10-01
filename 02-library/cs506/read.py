@@ -1,22 +1,18 @@
+import csv
 def read_csv(csv_file_path):
     """
         Given a path to a csv file, return a matrix (list of lists)
         in row major.
     """
-    
-    file = open(csv_file_path,'r')
-    lines = file.readlines()
     result=[]
-    for line in lines:
-        values = line.split(',')
-        record = []
-        for x in line.split(','):
-            if x.isnumeric():
-                record.append(int(x))
-            else:
-                record.append(x)
-        
-        result.append(record)
-        
-    file.close()
+    with open(csv_file_path, newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',', quoting=csv.QUOTE_NONE,quotechar="'")
+        for row in reader:
+            record = []
+            for x in row:
+                if x.isnumeric():
+                    record.append(int(x))
+                else:
+                    record.append(x.replace('"',''))
+            result.append(record)
     return result
